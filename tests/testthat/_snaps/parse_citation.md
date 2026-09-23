@@ -89,11 +89,20 @@
     [[1]]$name
     [1] "codemeta: A Smaller 'codemetar' Package"
     
+    [[1]]$identifier
+    [1] "10.32614/CRAN.package.codemeta"
+    
     [[1]]$url
     [1] "https://CRAN.R-project.org/package=codemeta"
     
     [[1]]$description
     [1] "R package version 0.1.0"
+    
+    [[1]]$`@id`
+    [1] "https://doi.org/10.32614/CRAN.package.codemeta"
+    
+    [[1]]$sameAs
+    [1] "https://doi.org/10.32614/CRAN.package.codemeta"
     
     
     [[2]]
