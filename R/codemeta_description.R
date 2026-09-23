@@ -222,7 +222,7 @@ add_software_terms <- function(codemeta, descr, verbose = FALSE) {
 
   codemeta$softwareRequirements <- c(
     parse_depends(requirements, verbose = verbose),
-    descr$get("SystemRequirements")
+    descr$get_field("SystemRequirements", NULL)
   )
 
   codemeta

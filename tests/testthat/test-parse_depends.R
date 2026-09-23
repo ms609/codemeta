@@ -66,7 +66,37 @@ test_that("Sys requirements", {
 
   desc_path <- test_path("test_examples", "DESCRIPTION_twomaintainers")
   descr <- codemeta_description(desc_path)
+  requirements <- descr$softwareRequirements
   expect_equal(
-    descr$softwareRequirements$SystemRequirements,
+    requirements[[length(requirements)]],
     "ImageMagick++: ImageMagick-c++-devel (rpm) or libmagick++-dev (deb)")
+})
+
+test_that("softwareRequirements is written as a JSON array", {
+  skip_on_cran()
+  skip_if_offline()
+
+  read_requirements <- function(desc_path) {
+    codemeta.json <- tempfile(fileext = ".json")
+    on.exit(unlink(codemeta.json))
+    cm <- codemeta_description(desc_path)
+    jsonlite::write_json(cm, codemeta.json, pretty = TRUE, auto_unbox = TRUE)
+    jsonlite::read_json(codemeta.json)$softwareRequirements
+  }
+
+  # With SystemRequirements: appended as the last, unnamed element
+  requirements <- read_requirements(
+    test_path("test_examples", "DESCRIPTION_twomaintainers")
+  )
+  expect_null(names(requirements))
+  expect_equal(
+    requirements[[length(requirements)]],
+    "ImageMagick++: ImageMagick-c++-devel (rpm) or libmagick++-dev (deb)")
+
+  # Without SystemRequirements: no null or NA entry
+  requirements <- read_requirements(
+    test_path("test_examples", "codemeta", "DESCRIPTION")
+  )
+  expect_null(names(requirements))
+  expect_true(all(vapply(requirements, is.list, logical(1))))
 })
